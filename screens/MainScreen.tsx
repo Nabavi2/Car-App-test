@@ -1,83 +1,50 @@
-import { Feather } from "@expo/vector-icons";
-import { FlatList, StyleSheet, View, Text } from "react-native";
+import { AntDesign, Fontisto } from "@expo/vector-icons";
+import { FlatList, StyleSheet } from "react-native";
 
-import Cart from "../components/Cart";
+import { View, Text } from "react-native";
+import IconContainer from "../components/IconContainer";
+import Colors from "../constants/Colors";
+import { RootTabScreenProps } from "../types";
 
 export default function MainScreen() {
-  const data = [
-    {
-      id: 1,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: require("../assets/images/car1.jpg"),
-    },
-    {
-      id: 2,
-      companyName: "BMW X",
-      year: "2018",
-      price: 260,
-      image: require("../assets/images/car2.jpg"),
-    },
-    {
-      id: 3,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: require("../assets/images/car3.jpg"),
-    },
-    {
-      id: 4,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: require("../assets/images/car1.jpg"),
-    },
-    {
-      id: 5,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: require("../assets/images/car1.jpg"),
-    },
-    {
-      id: 6,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: require("../assets/images/car1.jpg"),
-    },
+  const brands = [
+    <IconContainer isSelected>
+      <Fontisto name="tesla" size={42} color="white" />
+    </IconContainer>,
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
   ];
-
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", marginTop: 49 }}>
-        <Text style={[styles.title, { fontWeight: "700" }]}> Choose</Text>
-        <Text style={styles.title}> a Car</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.subTitle}>Available Cars</Text>
-        <Feather
-          name="filter"
-          size={24}
-          color="black"
-          style={styles.filterIcon}
-        />
-      </View>
+      <IconContainer>
+        <Fontisto name="tesla" size={42} color="white" />
+      </IconContainer>
+      <Text style={styles.title}>Brands</Text>
       <FlatList
-        data={data}
-        renderItem={({ item }) => {
-          return (
-            <Cart
-              image={item.image}
-              year={item.year}
-              rentalDaily={item.price}
-              companyName={item.companyName}
-            />
-          );
-        }}
+        showsHorizontalScrollIndicator={false}
+        style={{ height: 120, flexGrow: 0 }}
+        horizontal={true}
+        data={brands}
+        keyExtractor={(it, ind) => ind}
+        renderItem={({ item, index }) =>
+          index === 0 ? item : <IconContainer text={item}></IconContainer>
+        }
       />
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text style={styles.title}>Available Cars</Text>
+        <AntDesign name="filter" size={34} color="grey" />
+        
+      </View>
     </View>
   );
 }
@@ -85,22 +52,18 @@ export default function MainScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
+    backgroundColor: Colors.background,
+    padding: "10%",
   },
   title: {
-    fontSize: 24,
+    fontSize: 25,
+    fontWeight: "700",
+    marginVertical: "5%",
   },
-  subTitle: {
-    fontSize: 20,
-    marginLeft: 20,
-    marginBottom: 20,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 50,
-  },
-  filterIcon: {
-    marginRight: 20,
-    marginBottom: 20,
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: "80%",
   },
 });
