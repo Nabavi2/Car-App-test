@@ -1,8 +1,7 @@
 export const SET_CAR = "SET_CAR";
-
 import Car from "../../models/car";
 
-export const fetchMovies = (start: number, categoryId: number) => {
+export const fetchMovies = () => {
   try {
     return async (dispatch: Function) => {
       //   const token = await AsyncStorage.getItem("userData");
@@ -36,8 +35,7 @@ export const fetchMovies = (start: number, categoryId: number) => {
       }
       dispatch({
         type: SET_CAR,
-        movies: loadedCars,
-        start,
+        cars: loadedCars,
       });
     };
   } catch (error) {
