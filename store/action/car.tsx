@@ -1,7 +1,5 @@
 export const SET_CAR = "SET_CAR";
 export const SET_SEARCH = "SET_SEARCH";
-export const SET_SEARCH = "SET_SEARCH";
-export const SET_SEARCH = "SET_SEARCH";
 
 import Car from "../../models/Car";
 
@@ -86,7 +84,7 @@ export const searchCarByName = (title: any) => {
       }
       dispatch({
         type: SET_SEARCH,
-        searchMovie: loadedCarByName,
+        searchCar: loadedCarByName,
       });
     };
   } catch (error) {

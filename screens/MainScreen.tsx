@@ -1,6 +1,6 @@
 import { AntDesign, Feather, Fontisto } from "@expo/vector-icons";
-import { useCallback, useEffect, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { FlatList, StyleSheet, TextInput } from "react-native";
 
 import { View, Text } from "react-native";
 import {
@@ -19,6 +19,8 @@ import * as carsActions from "../store/action/car";
 
 const { width, height } = Layout.window;
 export default function MainScreen() {
+  const [showInput, setShowInput] = useState(false);
+
   const cars: [] = useSelector((state) => state.cars.availableCars);
 
   const dispatch = useDispatch();
@@ -109,10 +111,26 @@ export default function MainScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", marginTop: 49 }}>
+      <View style={[styles.inputContainer, { flexDirection: "row" }]}>
+        <TextInput
+          placeholder="Choose a car"
+          placeholderTextColor={Colors.text}
+          style={styles.input}
+        />
+        <AntDesign
+          name="search1"
+          size={24}
+          color="black"
+          onPress={() => {
+            console.log("aafdsadsfa");
+          }}
+        />
+      </View>
+
+      {/* <View style={{ flexDirection: "row", marginTop: 49 }}>
         <Text style={[styles.title, { fontWeight: "700" }]}> Choose</Text>
         <Text style={styles.title}> a Car</Text>
-      </View>
+      </View> */}
 
       <FlatList
         showsHorizontalScrollIndicator={false}
@@ -185,6 +203,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: "2%",
+    backgroundColor: Colors.background,
   },
   title: {
     fontSize: 24,
@@ -198,5 +217,20 @@ const styles = StyleSheet.create({
   filterIcon: {
     marginRight: 20,
     marginBottom: 20,
+  },
+  inputContainer: {
+    height: height * 0.06,
+    width: "100%",
+    backgroundColor: Colors.background,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    marginRight: 20,
+    marginBottom: 20,
+  },
+  input: {
+    height: height * 0.05,
+    width: width * 0.8,
+    backgroundColor: Colors.background,
   },
 });
