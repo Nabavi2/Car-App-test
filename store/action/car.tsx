@@ -1,7 +1,5 @@
 export const SET_CAR = "SET_CAR";
 export const SET_SEARCH = "SET_SEARCH";
-export const SET_SEARCH = "SET_SEARCH";
-export const SET_SEARCH = "SET_SEARCH";
 
 import Car from "../../models/Car";
 

@@ -1,8 +1,14 @@
 import { AntDesign, Feather, Fontisto } from "@expo/vector-icons";
 import { useCallback, useEffect, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
 import { View, Text } from "react-native";
+import { Input } from "react-native-elements";
 import {
   Menu,
   MenuOption,
@@ -14,7 +20,6 @@ import Cart from "../components/Cart";
 import IconContainer from "../components/IconContainer";
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
-import { RootTabScreenProps } from "../types";
 import * as carsActions from "../store/action/car";
 
 const { width, height } = Layout.window;
@@ -34,23 +39,24 @@ export default function MainScreen() {
     carsHandler();
   }, []);
   const [selectedOption, setSelectedOption] = useState("By company");
-  const brands = [
-    <IconContainer
-      icon={(color) => {
-        console.log(color);
-
-        return <Fontisto name="tesla" size={42} color={color} />;
-      }}
-      isSelected
-    />,
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
+  const years = [
+    "temp",
+    "2021",
+    "2020",
+    "2019",
+    "2018",
+    "2017",
+    "2016",
+    "2015",
+    "2014",
+    "2013",
+    "2012",
+    "2011",
+    "2010",
   ];
+  const brands = ["temp", "A", "B", "C", "D", "E", "F"];
   const colors = [
+    "temp",
     "yellow",
     "lightgrey",
     "lightgreen",
@@ -109,34 +115,50 @@ export default function MainScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", marginTop: 49 }}>
+      <View style={{ flexDirection: "row", marginVertical: "10%" }}>
         <Text style={[styles.title, { fontWeight: "700" }]}> Choose</Text>
         <Text style={styles.title}> a Car</Text>
       </View>
-
+      <Text style={{ ...styles.title, paddingLeft: "3%", marginBottom: "1%" }}>
+        {selectedOption === "By company"
+          ? "Brands"
+          : selectedOption === "By color"
+          ? "Available Colors"
+          : "Year"}
+      </Text>
       <FlatList
         showsHorizontalScrollIndicator={false}
-        style={{ height: 120, flexGrow: 0 }}
+        style={{
+          height: 130,
+          flexGrow: 0,
+          marginBottom: "7%",
+          width: "100%",
+        }}
+        contentContainerStyle={{ paddingHorizontal: "2%" }}
         horizontal={true}
-        data={selectedOption === "By company" ? brands : colors}
+        data={
+          selectedOption === "By company"
+            ? brands
+            : selectedOption === "By year"
+            ? years
+            : colors
+        }
         keyExtractor={(it, ind) => ind}
         renderItem={({ item, index }) =>
-          selectedOption === "By company" ? (
-            index === 0 ? (
-              item
-            ) : (
-              <IconContainer text={item} />
-            )
+          selectedOption === "By company" || selectedOption === "By year" ? (
+            <IconContainer isFirst={index === 0 ? true : false} text={item} />
           ) : (
-            <IconContainer color={item} />
+            <IconContainer isFirst={index === 0 ? true : false} color={item} />
           )
         }
       />
+
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          paddingHorizontal: "3%",
         }}
       >
         <Text style={styles.title}>Available Cars</Text>
@@ -147,7 +169,8 @@ export default function MainScreen() {
           <MenuOptions
             customStyles={{
               optionText: {
-                fontSize: 13,
+                fontSize: 16,
+                fontWeight: "700",
                 color: Colors.primary,
               },
               optionsContainer: {
@@ -184,7 +207,7 @@ export default function MainScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: "2%",
+    // alignItems: "center",
   },
   title: {
     fontSize: 24,
@@ -198,5 +221,28 @@ const styles = StyleSheet.create({
   filterIcon: {
     marginRight: 20,
     marginBottom: 20,
+  },
+  inputRow: {
+    width: "100%",
+    height: "10%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: "2%",
+    marginTop: "-2%",
+    marginBottom: "2%",
+  },
+  filterButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.primary,
+    borderRadius: width / 24,
+    height: "80%",
+    width: "27%",
+  },
+  filterText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });

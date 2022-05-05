@@ -6,21 +6,37 @@ import Layout from "../constants/Layout";
 
 const { width, height } = Layout.window;
 
-function IconContainer({ children, text, icon, color }: any) {
-  const [isSelected, setIsSelected] = useState(false);
-  console.log(color);
+function IconContainer({ children, text, icon, color, isFirst = false }: any) {
+  const [isSelected, setIsSelected] = useState(isFirst);
+  console.log(isSelected);
 
   return (
     <Pressable
       onPress={() => setIsSelected(!isSelected)}
       style={{
         ...styles.container,
-        backgroundColor: color ? color : isSelected ? Colors.primary : null,
+        backgroundColor:
+          color && !isFirst
+            ? color
+            : isSelected
+            ? isFirst
+              ? "#e4e3e3"
+              : Colors.primary
+            : "white",
       }}
     >
-      {text && (
-        <Text style={{ ...styles.text, color: isSelected ? "white" : "black" }}>
-          {text}
+      {(text || isFirst) && (
+        <Text
+          style={{
+            ...styles.text,
+            color: isSelected
+              ? isFirst
+                ? "#3f3f3f"
+                : "white"
+              : Colors.primary,
+          }}
+        >
+          {isFirst ? "All" : text}
         </Text>
       )}
       {icon ? icon(isSelected ? "white" : "black") : null}
@@ -34,13 +50,12 @@ const styles = StyleSheet.create({
     height: height * 0.09,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
     borderRadius: width / 25,
     marginHorizontal: 5,
-    elevation: 2,
+    elevation: 5,
   },
   text: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });
