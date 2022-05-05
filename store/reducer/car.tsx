@@ -10,5 +10,7 @@ export default (state = initialState, action: any) => {
         ...state,
         availableCars: [...state.availableCars, ...action.cars],
       };
+    default:
+      return state;
   }
 };

@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import * as carsActions from "../store/action/car";
 
 import Colors from "../constants/Colors";
 
 import Layout from "../constants/Layout";
+import { fetchCars } from "../store/action/car";
 
 const size = Layout.window;
+
 const Cart = ({ image, companyName, year, rentalDaily }) => {
+  const cars: [] = useSelector((state) => state.cars.availableCars);
+  const dispatch = useDispatch();
+  const carsHandler = useCallback(async () => {
+    try {
+      await dispatch(carsActions.fetchCars());
+    } catch (err: any) {
+      alert(err.message);
+    }
+  }, [dispatch]);
+
   return (
     <View style={styles.cart}>
       <View style={styles.row}>
@@ -28,7 +42,7 @@ const Cart = ({ image, companyName, year, rentalDaily }) => {
           <Text style={{ color: "#a7aab0", fontSize: 18 }}>/day</Text>
         </View>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPressIn={() => carsHandler()}>
           <Text style={styles.buttonTitle}>Book now</Text>
         </TouchableOpacity>
       </View>
@@ -43,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     elevation: 1,
     height: size.height * 0.2,
-    width: "88%",
+    width: "96%",
     alignSelf: "center",
     margin: 10,
   },

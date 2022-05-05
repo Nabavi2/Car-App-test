@@ -2,11 +2,19 @@ import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { MenuProvider } from "react-native-popup-menu";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { createStoreHook, Provider } from "react-redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
+import thunk from "redux-thunk";
 
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
+import carReducer from "./store/reducer/car";
 
+const rootReducer = combineReducers({
+  cars: carReducer,
+});
+const store = createStore(rootReducer, applyMiddleware(thunk));
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
@@ -18,12 +26,14 @@ export default function App() {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
+      <Provider store={store}>
         <MenuProvider>
-          <Navigation colorScheme={colorScheme} />
+          <SafeAreaProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </SafeAreaProvider>
         </MenuProvider>
-        <StatusBar />
-      </SafeAreaProvider>
+      </Provider>
     );
   }
 }

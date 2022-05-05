@@ -1,5 +1,5 @@
 import { AntDesign, Feather, Fontisto } from "@expo/vector-icons";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 
 import { View, Text } from "react-native";
@@ -9,14 +9,30 @@ import {
   MenuOptions,
   MenuTrigger,
 } from "react-native-popup-menu";
+import { useDispatch, useSelector } from "react-redux";
 import Cart from "../components/Cart";
 import IconContainer from "../components/IconContainer";
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
 import { RootTabScreenProps } from "../types";
+import * as carsActions from "../store/action/car";
 
+const { width, height } = Layout.window;
 export default function MainScreen() {
-  const { width, height } = Layout.window;
+  const cars: [] = useSelector((state) => state.cars.availableCars);
+
+  const dispatch = useDispatch();
+  const carsHandler = async () => {
+    try {
+      await dispatch(carsActions.fetchCars());
+    } catch (err: any) {
+      alert(err.message);
+    }
+  };
+
+  useEffect(() => {
+    carsHandler();
+  }, []);
   const [selectedOption, setSelectedOption] = useState("By company");
   const brands = [
     <IconContainer
@@ -65,7 +81,7 @@ export default function MainScreen() {
       companyName: "Tesla Modal X",
       year: "2018",
       price: 200,
-      image: require("../assets/images/car3.png"),
+      image: require("../assets/images/car2.png"),
     },
     {
       id: 4,
@@ -168,7 +184,7 @@ export default function MainScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: "5%",
+    paddingHorizontal: "2%",
   },
   title: {
     fontSize: 24,
@@ -178,11 +194,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 20,
   },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 50,
-  },
+
   filterIcon: {
     marginRight: 20,
     marginBottom: 20,
