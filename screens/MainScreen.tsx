@@ -1,4 +1,4 @@
-import { AntDesign, Fontisto } from "@expo/vector-icons";
+import { AntDesign, Feather, Fontisto } from "@expo/vector-icons";
 import { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 
@@ -9,6 +9,7 @@ import {
   MenuOptions,
   MenuTrigger,
 } from "react-native-popup-menu";
+import Cart from "../components/Cart";
 import IconContainer from "../components/IconContainer";
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
@@ -18,9 +19,14 @@ export default function MainScreen() {
   const { width, height } = Layout.window;
   const [selectedOption, setSelectedOption] = useState("By company");
   const brands = [
-    <IconContainer isSelected>
-      <Fontisto name="tesla" size={42} color="white" />
-    </IconContainer>,
+    <IconContainer
+      icon={(color) => {
+        console.log(color);
+
+        return <Fontisto name="tesla" size={42} color={color} />;
+      }}
+      isSelected
+    />,
     "A",
     "B",
     "C",
@@ -29,14 +35,69 @@ export default function MainScreen() {
     "F",
   ];
   const colors = [
-    "dodgerblue, lightgrey, lightgreen, black, lightpurple, tomato, lightblue, orange, yellow",
+    "yellow",
+    "lightgrey",
+    "lightgreen",
+    "black",
+    "purple",
+    "dodgerblue",
+    "tomato",
+    "lightblue",
+    "orange",
   ];
+  const data = [
+    {
+      id: 1,
+      companyName: "Tesla Modal X",
+      year: "2018",
+      price: 200,
+      image: require("../assets/images/car1.jpeg"),
+    },
+    {
+      id: 2,
+      companyName: "BMW X",
+      year: "2018",
+      price: 260,
+      image: require("../assets/images/car2.png"),
+    },
+    {
+      id: 3,
+      companyName: "Tesla Modal X",
+      year: "2018",
+      price: 200,
+      image: require("../assets/images/car3.png"),
+    },
+    {
+      id: 4,
+      companyName: "Tesla Modal X",
+      year: "2018",
+      price: 200,
+      image: require("../assets/images/car1.jpeg"),
+    },
+    {
+      id: 5,
+      companyName: "Tesla Modal X",
+      year: "2018",
+      price: 200,
+      image: require("../assets/images/car2.png"),
+    },
+    {
+      id: 6,
+      companyName: "Tesla Modal X",
+      year: "2018",
+      price: 200,
+      image: require("../assets/images/car1.jpeg"),
+    },
+  ];
+  console.log(selectedOption);
+
   return (
     <View style={styles.container}>
-      <IconContainer
-        icon={(color) => <Fontisto name="tesla" size={42} color={color} />}
-      />
-      <Text style={styles.title}>Brands</Text>
+      <View style={{ flexDirection: "row", marginTop: 49 }}>
+        <Text style={[styles.title, { fontWeight: "700" }]}> Choose</Text>
+        <Text style={styles.title}> a Car</Text>
+      </View>
+
       <FlatList
         showsHorizontalScrollIndicator={false}
         style={{ height: 120, flexGrow: 0 }}
@@ -44,7 +105,15 @@ export default function MainScreen() {
         data={selectedOption === "By company" ? brands : colors}
         keyExtractor={(it, ind) => ind}
         renderItem={({ item, index }) =>
-          index === 0 ? item : <IconContainer text={item}></IconContainer>
+          selectedOption === "By company" ? (
+            index === 0 ? (
+              item
+            ) : (
+              <IconContainer text={item} />
+            )
+          ) : (
+            <IconContainer color={item} />
+          )
         }
       />
       <View
@@ -77,6 +146,21 @@ export default function MainScreen() {
           </MenuOptions>
         </Menu>
       </View>
+
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={data}
+        renderItem={({ item }) => {
+          return (
+            <Cart
+              image={item.image}
+              year={item.year}
+              rentalDaily={item.price}
+              companyName={item.companyName}
+            />
+          );
+        }}
+      />
     </View>
   );
 }
@@ -84,18 +168,23 @@ export default function MainScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    backgroundColor: Colors.background,
-    padding: "10%",
+    paddingHorizontal: "5%",
   },
   title: {
-    fontSize: 25,
-    fontWeight: "700",
-    marginVertical: "5%",
+    fontSize: 24,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  subTitle: {
+    fontSize: 20,
+    marginLeft: 20,
+    marginBottom: 20,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 50,
+  },
+  filterIcon: {
+    marginRight: 20,
+    marginBottom: 20,
   },
 });

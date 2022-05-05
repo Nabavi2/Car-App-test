@@ -1,27 +1,29 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
+
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
 
 const { width, height } = Layout.window;
 
-function IconContainer({ children, text, icon }: any) {
+function IconContainer({ children, text, icon, color }: any) {
   const [isSelected, setIsSelected] = useState(false);
+  console.log(color);
+
   return (
     <Pressable
       onPress={() => setIsSelected(!isSelected)}
       style={{
         ...styles.container,
-        backgroundColor: isSelected ? Colors.primary : null,
+        backgroundColor: color ? color : isSelected ? Colors.primary : null,
       }}
     >
-      {children}
       {text && (
         <Text style={{ ...styles.text, color: isSelected ? "white" : "black" }}>
           {text}
         </Text>
       )}
-      {icon ? icon(isSelected ? Colors.primary : "white") : null}
+      {icon ? icon(isSelected ? "white" : "black") : null}
     </Pressable>
   );
 }
