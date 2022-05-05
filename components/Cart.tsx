@@ -1,30 +1,22 @@
 import React, { useCallback } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import * as carsActions from "../store/action/car";
 
 import Colors from "../constants/Colors";
 
 import Layout from "../constants/Layout";
-import { fetchCars } from "../store/action/car";
 
 const size = Layout.window;
 
 const Cart = ({ image, companyName, year, rentalDaily }) => {
-  const cars: [] = useSelector((state) => state.cars.availableCars);
-  const dispatch = useDispatch();
-  const carsHandler = useCallback(async () => {
-    try {
-      await dispatch(carsActions.fetchCars());
-    } catch (err: any) {
-      alert(err.message);
-    }
-  }, [dispatch]);
+  console.log("image url", image);
 
   return (
     <View style={styles.cart}>
       <View style={styles.row}>
-        <Image source={image} style={styles.image} />
+        <Image
+          source={{ uri: "https://unsplash.com/photos/LNRyGwIJr5c" }}
+          style={styles.image}
+        />
         <View style={styles.column}>
           <Text style={styles.title}>{companyName}</Text>
           <Text
@@ -37,12 +29,12 @@ const Cart = ({ image, companyName, year, rentalDaily }) => {
       <View style={styles.rentButtonRow}>
         <View style={{ flexDirection: "row", marginLeft: 10, marginTop: 20 }}>
           <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-            ${rentalDaily}
+            {rentalDaily}
           </Text>
           <Text style={{ color: "#a7aab0", fontSize: 18 }}>/day</Text>
         </View>
 
-        <TouchableOpacity style={styles.button} onPressIn={() => carsHandler()}>
+        <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonTitle}>Book now</Text>
         </TouchableOpacity>
       </View>
@@ -55,11 +47,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderRadius: 20,
     backgroundColor: Colors.white,
-    elevation: 1,
+    elevation: 5,
     height: size.height * 0.2,
     width: "96%",
     alignSelf: "center",
     margin: 10,
+    shadowColor: Colors.background,
+    shadowOffset: { width: -20, height: 30 },
+    shadowOpacity: 5,
+    shadowRadius: 20,
   },
   title: {
     fontSize: 20,
@@ -72,6 +68,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     borderRadius: 20,
+    aspectRatio: 16 / 9,
+    resizeMode: "contain",
   },
   row: {
     flexDirection: "row",

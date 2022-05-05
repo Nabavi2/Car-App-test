@@ -1,8 +1,15 @@
 import { AntDesign, Feather, Fontisto } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, TextInput } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Text,
+  Button,
+} from "react-native";
 
-import { View, Text } from "react-native";
 import {
   Menu,
   MenuOption,
@@ -14,7 +21,6 @@ import Cart from "../components/Cart";
 import IconContainer from "../components/IconContainer";
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
-import { RootTabScreenProps } from "../types";
 import * as carsActions from "../store/action/car";
 
 const { width, height } = Layout.window;
@@ -22,11 +28,14 @@ export default function MainScreen() {
   const [showInput, setShowInput] = useState(false);
 
   const cars: [] = useSelector((state) => state.cars.availableCars);
-
+  const images: [] = useSelector((state) => state.cars.images);
+  const imageUrl = images.map((item) => item.url);
+  console.log("image URL", imageUrl);
   const dispatch = useDispatch();
   const carsHandler = async () => {
     try {
       await dispatch(carsActions.fetchCars());
+      await dispatch(carsActions.fetchImages());
     } catch (err: any) {
       alert(err.message);
     }
@@ -36,23 +45,24 @@ export default function MainScreen() {
     carsHandler();
   }, []);
   const [selectedOption, setSelectedOption] = useState("By company");
-  const brands = [
-    <IconContainer
-      icon={(color) => {
-        console.log(color);
-
-        return <Fontisto name="tesla" size={42} color={color} />;
-      }}
-      isSelected
-    />,
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
+  const years = [
+    "temp",
+    "2021",
+    "2020",
+    "2019",
+    "2018",
+    "2017",
+    "2016",
+    "2015",
+    "2014",
+    "2013",
+    "2012",
+    "2011",
+    "2010",
   ];
+  const brands = ["temp", "A", "B", "C", "D", "E", "F"];
   const colors = [
+    "temp",
     "yellow",
     "lightgrey",
     "lightgreen",
@@ -107,24 +117,27 @@ export default function MainScreen() {
       image: require("../assets/images/car1.jpeg"),
     },
   ];
-  console.log(selectedOption);
+  // console.log("datatatata >>>>", cars);
 
   return (
     <View style={styles.container}>
       <View style={[styles.inputContainer, { flexDirection: "row" }]}>
-        <TextInput
-          placeholder="Choose a car"
-          placeholderTextColor={Colors.text}
-          style={styles.input}
-        />
         <AntDesign
           name="search1"
-          size={24}
+          size={22}
           color="black"
           onPress={() => {
             console.log("aafdsadsfa");
           }}
         />
+        <TextInput
+          placeholder="Choose a car"
+          placeholderTextColor={Colors.text}
+          style={styles.input}
+        />
+        <TouchableOpacity style={styles.searchButton}>
+          <Text style={styles.buttonText}>Search</Text>
+        </TouchableOpacity>
       </View>
 
       {/* <View style={{ flexDirection: "row", marginTop: 49 }}>
@@ -134,27 +147,37 @@ export default function MainScreen() {
 
       <FlatList
         showsHorizontalScrollIndicator={false}
-        style={{ height: 120, flexGrow: 0 }}
+        style={{
+          height: 130,
+          flexGrow: 0,
+          marginBottom: "7%",
+          width: "100%",
+        }}
+        contentContainerStyle={{ paddingHorizontal: "2%" }}
         horizontal={true}
-        data={selectedOption === "By company" ? brands : colors}
+        data={
+          selectedOption === "By company"
+            ? brands
+            : selectedOption === "By year"
+            ? years
+            : colors
+        }
         keyExtractor={(it, ind) => ind}
         renderItem={({ item, index }) =>
-          selectedOption === "By company" ? (
-            index === 0 ? (
-              item
-            ) : (
-              <IconContainer text={item} />
-            )
+          selectedOption === "By company" || selectedOption === "By year" ? (
+            <IconContainer isFirst={index === 0 ? true : false} text={item} />
           ) : (
-            <IconContainer color={item} />
+            <IconContainer isFirst={index === 0 ? true : false} color={item} />
           )
         }
       />
+
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
+          paddingHorizontal: "3%",
         }}
       >
         <Text style={styles.title}>Available Cars</Text>
@@ -165,7 +188,8 @@ export default function MainScreen() {
           <MenuOptions
             customStyles={{
               optionText: {
-                fontSize: 13,
+                fontSize: 16,
+                fontWeight: "700",
                 color: Colors.primary,
               },
               optionsContainer: {
@@ -183,14 +207,14 @@ export default function MainScreen() {
 
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={data}
+        data={cars}
         renderItem={({ item }) => {
           return (
             <Cart
-              image={item.image}
-              year={item.year}
+              image={data[0].image}
+              year={item.car_model_year}
               rentalDaily={item.price}
-              companyName={item.companyName}
+              companyName={item.car_model}
             />
           );
         }}
@@ -204,6 +228,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: "2%",
     backgroundColor: Colors.background,
+    paddingBottom: 10,
   },
   title: {
     fontSize: 24,
@@ -218,6 +243,29 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginBottom: 20,
   },
+  inputRow: {
+    width: "100%",
+    height: "10%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: "2%",
+    marginTop: "-2%",
+    marginBottom: "2%",
+  },
+  filterButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.primary,
+    borderRadius: width / 24,
+    height: "80%",
+    width: "27%",
+  },
+  filterText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   inputContainer: {
     height: height * 0.06,
     width: "100%",
@@ -230,7 +278,18 @@ const styles = StyleSheet.create({
   },
   input: {
     height: height * 0.05,
-    width: width * 0.8,
+    width: width * 0.65,
     backgroundColor: Colors.background,
+  },
+  searchButton: {
+    height: height * 0.04,
+    width: width * 0.23,
+    backgroundColor: Colors.primary,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: Colors.white,
   },
 });

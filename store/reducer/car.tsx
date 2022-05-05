@@ -1,7 +1,8 @@
-import { SET_CAR, SET_SEARCH } from "../action/car";
+import { SET_CAR, SET_IMAGE, SET_SEARCH } from "../action/car";
 const initialState = {
   availableCars: [],
   searchCarByName: [],
+  images: [],
 };
 
 export default (state = initialState, action: any) => {
@@ -10,6 +11,11 @@ export default (state = initialState, action: any) => {
       return {
         ...state,
         availableCars: [...state.availableCars, ...action.cars],
+      };
+    case SET_IMAGE:
+      return {
+        ...state,
+        images: [...state.images, ...action.images],
       };
     case SET_SEARCH:
       return {

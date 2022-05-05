@@ -1,7 +1,9 @@
 export const SET_CAR = "SET_CAR";
 export const SET_SEARCH = "SET_SEARCH";
+export const SET_IMAGE = "SET_IMAGE";
 
 import Car from "../../models/Car";
+import Image from "../../models/Image";
 
 export const fetchCars = () => {
   try {
@@ -17,26 +19,57 @@ export const fetchCars = () => {
       }
 
       const resData = await response.json();
-      console.log("feteched data ", resData);
-      resData;
+      // console.log("resData carararafda", resData.cars);
       const loadedCars = [];
-      for (const key in resData) {
+      for (const key in resData.cars) {
         loadedCars.push(
           new Car(
-            resData[key].id,
-            resData[key].car,
-            resData[key].car_model,
-            resData[key].car_color,
-            resData[key].car_model_year,
-            resData[key].car_vin,
-            resData[key].price,
-            resData[key].availability
+            resData.cars[key].id,
+            resData.cars[key].car,
+            resData.cars[key].car_model,
+            resData.cars[key].car_color,
+            resData.cars[key].car_model_year,
+            resData.cars[key].car_vin,
+            resData.cars[key].price,
+            resData.cars[key].availability
           )
         );
       }
+
       dispatch({
         type: SET_CAR,
         cars: loadedCars,
+      });
+    };
+  } catch (error) {
+    throw error;
+  }
+};
+//This method is for fetch of images
+
+export const fetchImages = () => {
+  try {
+    return async (dispatch: Function) => {
+      const response = await fetch(`https://picsum.photos/v2/list`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("An error occured! in movies");
+      }
+
+      const resData = await response.json();
+
+      const loadedImages = [];
+      for (const key in resData) {
+        loadedImages.push(new Image(resData[key].id, resData[key].url));
+      }
+
+      dispatch({
+        type: SET_IMAGE,
+        images: loadedImages,
       });
     };
   } catch (error) {
@@ -91,6 +124,7 @@ export const searchCarByName = (title: any) => {
     throw error;
   }
 };
+
 // //This method for filter by Car Model
 // export const filterByModel = (model: any) => {
 //   try {

@@ -2,28 +2,28 @@ class Car {
   id: number;
   car: string;
   car_model: string;
-  car_color: string;
-  car_model_year: string;
-  car_vin: string;
+  car_color: any;
+  car_model_year: number;
+  car_vin: any;
   price: string;
-  availability: string;
+  availability: boolean;
 
   constructor(
     id: number,
     car: string,
-    carModel: string,
-    carColor: string,
-    carModelYear: string,
-    carVin: string,
-    price: string,
-    availability: string
+    car_model: any,
+    car_color: any,
+    car_model_year: any,
+    car_vin: any,
+    price: any,
+    availability: any
   ) {
     this.id = id;
     this.car = car;
-    this.car_model = carModel;
-    this.car_color = carColor;
-    this.car_model_year = carModelYear;
-    this.car_vin = carVin;
+    this.car_model = car_model;
+    this.car_color = car_color;
+    this.car_model_year = car_model_year;
+    this.car_vin = car_vin;
     this.price = price;
     this.availability = availability;
   }
