@@ -5,7 +5,7 @@ import Layout from "../constants/Layout";
 
 const { width, height } = Layout.window;
 
-function IconContainer({ children, text }: any) {
+function IconContainer({ children, text, icon }: any) {
   const [isSelected, setIsSelected] = useState(false);
   return (
     <Pressable
@@ -21,6 +21,7 @@ function IconContainer({ children, text }: any) {
           {text}
         </Text>
       )}
+      {icon ? icon(isSelected ? Colors.primary : "white") : null}
     </Pressable>
   );
 }

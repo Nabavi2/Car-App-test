@@ -1,5 +1,6 @@
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
+import { MenuProvider } from "react-native-popup-menu";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import useCachedResources from "./hooks/useCachedResources";
@@ -18,7 +19,9 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
+        <MenuProvider>
+          <Navigation colorScheme={colorScheme} />
+        </MenuProvider>
         <StatusBar />
       </SafeAreaProvider>
     );

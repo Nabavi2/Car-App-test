@@ -1,12 +1,22 @@
 import { AntDesign, Fontisto } from "@expo/vector-icons";
+import { useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 
 import { View, Text } from "react-native";
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from "react-native-popup-menu";
 import IconContainer from "../components/IconContainer";
 import Colors from "../constants/Colors";
+import Layout from "../constants/Layout";
 import { RootTabScreenProps } from "../types";
 
 export default function MainScreen() {
+  const { width, height } = Layout.window;
+  const [selectedOption, setSelectedOption] = useState("By company");
   const brands = [
     <IconContainer isSelected>
       <Fontisto name="tesla" size={42} color="white" />
@@ -18,17 +28,20 @@ export default function MainScreen() {
     "E",
     "F",
   ];
+  const colors = [
+    "dodgerblue, lightgrey, lightgreen, black, lightpurple, tomato, lightblue, orange, yellow",
+  ];
   return (
     <View style={styles.container}>
-      <IconContainer>
-        <Fontisto name="tesla" size={42} color="white" />
-      </IconContainer>
+      <IconContainer
+        icon={(color) => <Fontisto name="tesla" size={42} color={color} />}
+      />
       <Text style={styles.title}>Brands</Text>
       <FlatList
         showsHorizontalScrollIndicator={false}
         style={{ height: 120, flexGrow: 0 }}
         horizontal={true}
-        data={brands}
+        data={selectedOption === "By company" ? brands : colors}
         keyExtractor={(it, ind) => ind}
         renderItem={({ item, index }) =>
           index === 0 ? item : <IconContainer text={item}></IconContainer>
@@ -42,8 +55,27 @@ export default function MainScreen() {
         }}
       >
         <Text style={styles.title}>Available Cars</Text>
-        <AntDesign name="filter" size={34} color="grey" />
-        
+        <Menu onSelect={(value) => setSelectedOption(value)}>
+          <MenuTrigger>
+            <AntDesign name="filter" size={34} color="grey" />
+          </MenuTrigger>
+          <MenuOptions
+            customStyles={{
+              optionText: {
+                fontSize: 13,
+                color: Colors.primary,
+              },
+              optionsContainer: {
+                borderRadius: width / 65,
+                padding: "5%",
+              },
+            }}
+          >
+            <MenuOption text="By company" value={"By company"} />
+            <MenuOption text="By color" value={"By color"} />
+            <MenuOption text="By year" value={"By year"} />
+          </MenuOptions>
+        </Menu>
       </View>
     </View>
   );
