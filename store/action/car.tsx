@@ -1,9 +1,31 @@
 export const SET_CAR = "SET_CAR";
 export const SET_SEARCH = "SET_SEARCH";
 export const SET_IMAGE = "SET_IMAGE";
+export const SET_SELECTED_COMPANY = "SET_SELECTED_COMPANY";
+export const SET_SELECTED_COLOR = "SET_SELECTED_COLOR";
+export const SET_SELECTED_YEAR = "SET_SELECTED_YEAR";
 
 import Car from "../../models/Car";
 import Image from "../../models/Image";
+
+export const setSelectedCompany = (company: string) => {
+  return {
+    type: SET_SELECTED_COMPANY,
+    company,
+  };
+};
+export const setSelectedColor = (color: string) => {
+  return {
+    type: SET_SELECTED_COLOR,
+    color,
+  };
+};
+export const setSelectedYear = (year: string) => {
+  return {
+    type: SET_SELECTED_YEAR,
+    year,
+  };
+};
 
 export const fetchCars = () => {
   try {
@@ -115,6 +137,7 @@ export const searchCarByName = (title: any) => {
           )
         );
       }
+
       dispatch({
         type: SET_SEARCH,
         searchCar: loadedCarByName,
@@ -126,52 +149,54 @@ export const searchCarByName = (title: any) => {
 };
 
 // //This method for filter by Car Model
-// export const filterByModel = (model: any) => {
-//   try {
-//     return async (dispatch: Function) => {
-//       const response = await fetch(
-//         `https://myfakeapi.com/api/cars/model/${model}`,
-//         {
-//           method: "GET",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//       if (!response.ok) {
-//         throw new Error("somthing went wrong");
-//       }
+export const filterByModel = (model: any) => {
+  try {
+    return async (dispatch: Function) => {
+      const response = await fetch(
+        `https://myfakeapi.com/api/cars/name/${model}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response);
 
-//       const resData = await response.json();
-//       if (resData.lenght === 0) {
-//         throw new Error("not found!");
-//       }
+      if (!response.ok) {
+        throw new Error("somthing went wrong");
+      }
 
-//       const loadedCarByModel = [];
+      const resData = await response.json();
+      if (resData.lenght === 0) {
+        throw new Error("not found!");
+      }
 
-//       for (const key in resData) {
-//         loadedCarByModel.push(
-//           new Car(
-//             resData[key].id,
-//             resData[key].car,
-//             resData[key].car_model,
-//             resData[key].car_color,
-//             resData[key].car_model_year,
-//             resData[key].car_vin,
-//             resData[key].price,
-//             resData[key].availability
-//           )
-//         );
-//       }
-//       dispatch({
-//         type: SET_SEARCH,
-//         filterModel: loadedCarByModel,
-//       });
-//     };
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+      const loadedCarByModel = [];
+
+      for (const key in resData) {
+        loadedCarByModel.push(
+          new Car(
+            resData[key].id,
+            resData[key].car,
+            resData[key].car_model,
+            resData[key].car_color,
+            resData[key].car_model_year,
+            resData[key].car_vin,
+            resData[key].price,
+            resData[key].availability
+          )
+        );
+      }
+      dispatch({
+        type: SET_SEARCH,
+        searchedCars: loadedCarByModel,
+      });
+    };
+  } catch (error) {
+    throw error;
+  }
+};
 
 // //This method is for filter by color
 // export const filterByColor = (color: any) => {

@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, Image } from "react-native";
+import { useDispatch } from "react-redux";
 
 import Colors from "../constants/Colors";
 import Layout from "../constants/Layout";
+import { fetchCars, filterByModel } from "../store/action/car";
 
 const { width, height } = Layout.window;
 
-function IconContainer({ children, text, icon, color, isFirst = false }: any) {
+function IconContainer({ text, company, color, isFirst = false }: any) {
   const [isSelected, setIsSelected] = useState(isFirst);
-  console.log(isSelected);
+  const dispatch = useDispatch();
 
   return (
     <Pressable
-      onPress={() => setIsSelected(!isSelected)}
+      onPress={() => {
+        isFirst ? dispatch(fetchCars()) : dispatch(filterByModel(company.name));
+      }}
       style={{
         ...styles.container,
         backgroundColor:
@@ -39,15 +43,20 @@ function IconContainer({ children, text, icon, color, isFirst = false }: any) {
           {isFirst ? "All" : text}
         </Text>
       )}
-      {icon ? icon(isSelected ? "white" : "black") : null}
+      {company && !isFirst && (
+        <Image
+          source={isSelected ? company.white : company.black}
+          style={styles.image}
+        />
+      )}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: width * 0.17,
-    height: height * 0.09,
+    width: width * 0.19,
+    height: height * 0.1,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: width / 25,
@@ -57,6 +66,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: "bold",
+  },
+  image: {
+    width: width * 0.15,
+    height: height * 0.085,
   },
 });
 

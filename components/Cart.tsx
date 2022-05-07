@@ -8,8 +8,6 @@ import Layout from "../constants/Layout";
 const size = Layout.window;
 
 const Cart = ({ image, companyName, year, rentalDaily }) => {
-  console.log("image url", image);
-
   return (
     <View style={styles.cart}>
       <View style={styles.row}>
@@ -24,6 +22,7 @@ const Cart = ({ image, companyName, year, rentalDaily }) => {
           >
             {year}
           </Text>
+          {/* <Text></Text> */}
         </View>
       </View>
       <View style={styles.rentButtonRow}>

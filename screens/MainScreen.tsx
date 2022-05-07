@@ -60,7 +60,79 @@ export default function MainScreen() {
     "2011",
     "2010",
   ];
-  const brands = ["temp", "A", "B", "C", "D", "E", "F"];
+  const brands = [
+    "tem",
+    {
+      name: "Audi",
+      black: require("../assets/images/audi.png"),
+      white: require("../assets/images/audi_white.png"),
+    },
+    {
+      name: "Chevrolet",
+      black: require("../assets/images/chevrolet.png"),
+      white: require("../assets/images/chevorlet_white.png"),
+    },
+    {
+      name: "Ford",
+      black: require("../assets/images/ford.png"),
+      white: require("../assets/images/ford_white.png"),
+    },
+    {
+      name: "GMC",
+      black: require("../assets/images/gmc.png"),
+      white: require("../assets/images/gmc_white.png"),
+    },
+    {
+      name: "Lamborghini",
+      black: require("../assets/images/lamborghini.png"),
+      white: require("../assets/images/lamborghini_white.png"),
+    },
+    {
+      name: "Land-Rover",
+      black: require("../assets/images/land_rover.png"),
+      white: require("../assets/images/land_rover_white.png"),
+    },
+    {
+      name: "BMW",
+      black: require("../assets/images/bmw.png"),
+      white: require("../assets/images/bmw_white.png"),
+    },
+    {
+      name: "Mazda",
+      black: require("../assets/images/mazda.png"),
+      white: require("../assets/images/mazda_white.png"),
+    },
+    {
+      name: "Mercedes-Benz",
+      black: require("../assets/images/mercedes.png"),
+      white: require("../assets/images/mecedes_white.png"),
+    },
+    {
+      name: "Mitsubishi",
+      black: require("../assets/images/mitsubishi.png"),
+      white: require("../assets/images/mitsubishi_white.png"),
+    },
+    {
+      name: "Suzuki",
+      black: require("../assets/images/suzuki.png"),
+      white: require("../assets/images/suzuki_white.png"),
+    },
+    {
+      name: "Toyota",
+      black: require("../assets/images/toyota.png"),
+      white: require("../assets/images/toyota_white.png"),
+    },
+    {
+      name: "Volkswagen",
+      black: require("../assets/images/volkswagen.png"),
+      white: require("../assets/images/volkswagen_white.png"),
+    },
+    {
+      name: "Volvo",
+      black: require("../assets/images/volvo.png"),
+      white: require("../assets/images/volvo_white.png"),
+    },
+  ];
   const colors = [
     "temp",
     "yellow",
@@ -117,7 +189,7 @@ export default function MainScreen() {
       image: require("../assets/images/car1.jpeg"),
     },
   ];
-  // console.log("datatatata >>>>", cars);
+  console.log("datatatata >>>>", cars);
 
   return (
     <View style={styles.container}>
@@ -164,8 +236,13 @@ export default function MainScreen() {
         }
         keyExtractor={(it, ind) => ind}
         renderItem={({ item, index }) =>
-          selectedOption === "By company" || selectedOption === "By year" ? (
+          selectedOption === "By year" ? (
             <IconContainer isFirst={index === 0 ? true : false} text={item} />
+          ) : selectedOption === "By company" ? (
+            <IconContainer
+              isFirst={index === 0 ? true : false}
+              company={item}
+            />
           ) : (
             <IconContainer isFirst={index === 0 ? true : false} color={item} />
           )
