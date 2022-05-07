@@ -16,7 +16,7 @@ class Car {
     car_model_year: any,
     car_vin: any,
     price: any,
-    availability: any
+    availability: boolean
   ) {
     this.id = id;
     this.car = car;

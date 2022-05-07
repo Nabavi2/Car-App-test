@@ -25,21 +25,19 @@ import * as carsActions from "../store/action/car";
 
 const { width, height } = Layout.window;
 export default function MainScreen() {
+  const random = Math.floor(Math.random() * 10);
   const [showInput, setShowInput] = useState(false);
 
   const cars: [] = useSelector((state) => state.cars.availableCars);
-  const images: [] = useSelector((state) => state.cars.images);
-  const imageUrl = images.map((item) => item.url);
-  console.log("image URL", imageUrl);
+  console.log("jjjjjjjjjjjjjjjjjj", cars);
   const dispatch = useDispatch();
-  const carsHandler = async () => {
+  const carsHandler = useCallback(async () => {
     try {
       await dispatch(carsActions.fetchCars());
-      await dispatch(carsActions.fetchImages());
     } catch (err: any) {
-      alert(err.message);
+      console.log("ad");
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     carsHandler();
@@ -79,57 +77,49 @@ export default function MainScreen() {
       companyName: "Tesla Modal X",
       year: "2018",
       price: 200,
-      image: require("../assets/images/car1.jpeg"),
+      image: "https://picsum.photos/200/340",
     },
     {
       id: 2,
       companyName: "BMW X",
       year: "2018",
       price: 260,
-      image: require("../assets/images/car2.png"),
+      image: "https://picsum.photos/200/360",
     },
     {
       id: 3,
       companyName: "Tesla Modal X",
       year: "2018",
       price: 200,
-      image: require("../assets/images/car2.png"),
+      image: "https://picsum.photos/200/310",
     },
     {
       id: 4,
       companyName: "Tesla Modal X",
       year: "2018",
       price: 200,
-      image: require("../assets/images/car1.jpeg"),
+      image: "https://picsum.photos/200/370",
     },
     {
       id: 5,
       companyName: "Tesla Modal X",
       year: "2018",
       price: 200,
-      image: require("../assets/images/car2.png"),
+      image: "https://picsum.photos/200/380",
     },
     {
       id: 6,
       companyName: "Tesla Modal X",
       year: "2018",
       price: 200,
-      image: require("../assets/images/car1.jpeg"),
+      image: "https://picsum.photos/200/399",
     },
   ];
-  // console.log("datatatata >>>>", cars);
 
   return (
     <View style={styles.container}>
       <View style={[styles.inputContainer, { flexDirection: "row" }]}>
-        <AntDesign
-          name="search1"
-          size={22}
-          color="black"
-          onPress={() => {
-            console.log("aafdsadsfa");
-          }}
-        />
+        <AntDesign name="search1" size={22} color="black" />
         <TextInput
           placeholder="Choose a car"
           placeholderTextColor={Colors.text}
@@ -139,11 +129,6 @@ export default function MainScreen() {
           <Text style={styles.buttonText}>Search</Text>
         </TouchableOpacity>
       </View>
-
-      {/* <View style={{ flexDirection: "row", marginTop: 49 }}>
-        <Text style={[styles.title, { fontWeight: "700" }]}> Choose</Text>
-        <Text style={styles.title}> a Car</Text>
-      </View> */}
 
       <FlatList
         showsHorizontalScrollIndicator={false}
@@ -211,7 +196,7 @@ export default function MainScreen() {
         renderItem={({ item }) => {
           return (
             <Cart
-              image={data[0].image}
+              image={item.image}
               year={item.car_model_year}
               rentalDaily={item.price}
               companyName={item.car_model}

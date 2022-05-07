@@ -17,11 +17,11 @@ export default (state = initialState, action: any) => {
         ...state,
         images: [...state.images, ...action.images],
       };
-    case SET_SEARCH:
-      return {
-        ...state,
-        searchCarByName: [...state.searchCarByName, ...action.searchCar],
-      };
+    // case SET_SEARCH:
+    //   return {
+    //     ...state,
+    //     searchCarByName: [...state.searchCarByName, ...action.searchCar],
+    //   };
     default:
       return state;
   }

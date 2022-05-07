@@ -8,18 +8,19 @@ import Image from "../../models/Image";
 export const fetchCars = () => {
   try {
     return async (dispatch: Function) => {
-      const response = await fetch(`https://myfakeapi.com/api/cars/`, {
+      const response1 = await fetch(`https://myfakeapi.com/api/cars/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      if (!response.ok) {
+
+      if (!response1.ok) {
         throw new Error("An error occured! in movies");
       }
 
-      const resData = await response.json();
-      // console.log("resData carararafda", resData.cars);
+      const resData = await response1.json();
+
       const loadedCars = [];
       for (const key in resData.cars) {
         loadedCars.push(
@@ -47,83 +48,86 @@ export const fetchCars = () => {
 };
 //This method is for fetch of images
 
-export const fetchImages = () => {
-  try {
-    return async (dispatch: Function) => {
-      const response = await fetch(`https://picsum.photos/v2/list`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error("An error occured! in movies");
-      }
+// export const fetchImages = () => {
+//   try {
+//     return async (dispatch: Function) => {
+//       const response = await fetch(`https://picsum.photos/200/300`, {
+//         method: "GET",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       });
 
-      const resData = await response.json();
+//       if (!response.ok) {
+//         throw new Error("An error occured! in images");
+//       }
 
-      const loadedImages = [];
-      for (const key in resData) {
-        loadedImages.push(new Image(resData[key].id, resData[key].url));
-      }
+//       // const resData = await response.json();
+//       console.log("gagfgfafds");
+//       // const loadedImages = [];
+//       // for (const key in resData) {
+//       //   loadedImages.push(new Image(resData[key].download_url));
+//       // }
 
-      dispatch({
-        type: SET_IMAGE,
-        images: loadedImages,
-      });
-    };
-  } catch (error) {
-    throw error;
-  }
-};
+//       dispatch({
+//         type: SET_IMAGE,
+//         images: loadedImages,
+//       });
+//     };
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 //This is search method
-export const searchCarByName = (title: any) => {
-  try {
-    return async (dispatch: Function) => {
-      const response = await fetch(
-        `https://myfakeapi.com/api/cars/name/${title}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("somthing went wrong");
-      }
 
-      const resData = await response.json();
-      if (resData.lenght === 0) {
-        throw new Error("not found!");
-      }
+// export const searchCarByName = (title: any) => {
+//   try {
+//     return async (dispatch: Function) => {
+//       const response = await fetch(
+//         `https://myfakeapi.com/api/cars/name/${title}`,
+//         {
+//           method: "GET",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       );
+//       if (!response.ok) {
+//         throw new Error("somthing went wrong");
+//       }
 
-      const loadedCarByName = [];
+//       const resData = await response.json();
+//       if (resData.lenght === 0) {
+//         throw new Error("not found!");
+//       }
 
-      for (const key in resData) {
-        loadedCarByName.push(
-          new Car(
-            resData[key].id,
-            resData[key].car,
-            resData[key].car_model,
-            resData[key].car_color,
-            resData[key].car_model_year,
-            resData[key].car_vin,
-            resData[key].price,
-            resData[key].availability
-          )
-        );
-      }
-      dispatch({
-        type: SET_SEARCH,
-        searchCar: loadedCarByName,
-      });
-    };
-  } catch (error) {
-    throw error;
-  }
-};
+//       const loadedCarByName = [];
+
+//       for (const key in resData) {
+//         loadedCarByName.push(
+//           new Car(
+//             resData[key].id,
+//             resData[key].car,
+//             resData[key].car_model,
+//             resData[key].car_color,
+//             resData[key].car_model_year,
+//             resData[key].car_vin,
+//             resData[key].price,
+//             resData[key].availability,
+//             url
+//           )
+//         );
+//       }
+//       dispatch({
+//         type: SET_SEARCH,
+//         searchCar: loadedCarByName,
+//       });
+//     };
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 // //This method for filter by Car Model
 // export const filterByModel = (model: any) => {

@@ -8,13 +8,14 @@ import Layout from "../constants/Layout";
 const size = Layout.window;
 
 const Cart = ({ image, companyName, year, rentalDaily }) => {
-  console.log("image url", image);
-
+  const random = Math.floor(Math.random() * 100);
   return (
     <View style={styles.cart}>
       <View style={styles.row}>
         <Image
-          source={{ uri: "https://unsplash.com/photos/LNRyGwIJr5c" }}
+          source={{
+            uri: `https://picsum.photos/330/2${random}`,
+          }}
           style={styles.image}
         />
         <View style={styles.column}>
@@ -67,9 +68,8 @@ const styles = StyleSheet.create({
     width: size.width * 0.3,
     marginLeft: 10,
     marginRight: 10,
-    borderRadius: 20,
-    aspectRatio: 16 / 9,
-    resizeMode: "contain",
+    borderRadius: 15,
+    marginTop: 10,
   },
   row: {
     flexDirection: "row",
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "50%",
-    height: size.height * 0.08,
+    height: size.height * 0.07,
     borderTopLeftRadius: 20,
     borderBottomRightRadius: 20,
     backgroundColor: Colors.primary,
