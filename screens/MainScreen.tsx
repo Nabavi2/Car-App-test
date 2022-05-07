@@ -25,11 +25,13 @@ import * as carsActions from "../store/action/car";
 
 const { width, height } = Layout.window;
 export default function MainScreen() {
-  const random = Math.floor(Math.random() * 10);
-  const [showInput, setShowInput] = useState(false);
-
   const cars: [] = useSelector((state) => state.cars.availableCars);
-  console.log("jjjjjjjjjjjjjjjjjj", cars);
+  const searchedCar: [] = useSelector((state) => state.cars.searchCarByName);
+  console.log(searchedCar, "searched Car");
+  const [showInput, setShowInput] = useState(false);
+  const [filterData, setFilterData] = useState([]);
+  const [search, setSearch] = useState("");
+
   const dispatch = useDispatch();
   const carsHandler = useCallback(async () => {
     try {
@@ -188,6 +190,20 @@ export default function MainScreen() {
     },
   ];
 
+  const searchHandler = async (title: string) => {
+    console.log("tltltltltltltlltltltltltl", title);
+    try {
+      await dispatch(carsActions.searchCarByName(title));
+    } catch (err: any) {
+      alert(err.message);
+    }
+  };
+  const searchNotfoundHandler = (text: string) => {
+    setSearch(text);
+    if (text.length === 0) {
+      console.log("if");
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={[styles.inputContainer, { flexDirection: "row" }]}>
@@ -196,8 +212,13 @@ export default function MainScreen() {
           placeholder="Choose a car"
           placeholderTextColor={Colors.text}
           style={styles.input}
+          onChangeText={(text: string) => searchNotfoundHandler(text)}
+          value={search}
         />
-        <TouchableOpacity style={styles.searchButton}>
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPressIn={() => searchHandler(search)}
+        >
           <Text style={styles.buttonText}>Search</Text>
         </TouchableOpacity>
       </View>
@@ -267,20 +288,37 @@ export default function MainScreen() {
         </Menu>
       </View>
 
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        data={cars}
-        renderItem={({ item }) => {
-          return (
-            <Cart
-              image={item.image}
-              year={item.car_model_year}
-              rentalDaily={item.price}
-              companyName={item.car_model}
-            />
-          );
-        }}
-      />
+      {search ? (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={searchedCar}
+          renderItem={({ item }) => {
+            return (
+              <Cart
+                image={item.image}
+                year={item.car_model_year}
+                rentalDaily={item.price}
+                companyName={item.car_model}
+              />
+            );
+          }}
+        />
+      ) : (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={cars}
+          renderItem={({ item }) => {
+            return (
+              <Cart
+                image={item.image}
+                year={item.car_model_year}
+                rentalDaily={item.price}
+                companyName={item.car_model}
+              />
+            );
+          }}
+        />
+      )}
     </View>
   );
 }
