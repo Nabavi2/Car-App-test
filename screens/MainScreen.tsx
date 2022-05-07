@@ -30,7 +30,7 @@ export default function MainScreen() {
   const cars: [] = useSelector((state) => state.cars.availableCars);
   const images: [] = useSelector((state) => state.cars.images);
   const imageUrl = images.map((item) => item.url);
-  console.log("image URL", imageUrl);
+  // console.log("image URL", imageUrl);
   const dispatch = useDispatch();
   const carsHandler = async () => {
     try {
@@ -46,7 +46,7 @@ export default function MainScreen() {
   }, []);
   const [selectedOption, setSelectedOption] = useState("By company");
   const years = [
-    "temp",
+    "all",
     "2021",
     "2020",
     "2019",
@@ -61,7 +61,7 @@ export default function MainScreen() {
     "2010",
   ];
   const brands = [
-    "tem",
+    "all",
     {
       name: "Audi",
       black: require("../assets/images/audi.png"),
@@ -134,7 +134,7 @@ export default function MainScreen() {
     },
   ];
   const colors = [
-    "temp",
+    "all",
     "yellow",
     "lightgrey",
     "lightgreen",
@@ -189,7 +189,7 @@ export default function MainScreen() {
       image: require("../assets/images/car1.jpeg"),
     },
   ];
-  console.log("datatatata >>>>", cars);
+  // console.log("datatatata >>>>", cars);
 
   return (
     <View style={styles.container}>
