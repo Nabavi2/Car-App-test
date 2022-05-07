@@ -40,12 +40,12 @@ export default (state = initialState, action: any) => {
     case SET_SELECTED_COMPANY:
       return {
         ...state,
-        selectedColor: action.company,
+        selectedCompany: action.company,
       };
     case SET_SELECTED_YEAR:
       return {
         ...state,
-        selectedColor: action.year,
+        selectedYear: action.year,
       };
     default:
       return state;

@@ -46,7 +46,7 @@ export default function MainScreen() {
   }, []);
   const [selectedOption, setSelectedOption] = useState("By company");
   const years = [
-    "temp",
+    "all",
     "2021",
     "2020",
     "2019",
@@ -61,7 +61,7 @@ export default function MainScreen() {
     "2010",
   ];
   const brands = [
-    "tem",
+    "all",
     {
       name: "Audi",
       black: require("../assets/images/audi.png"),
@@ -134,7 +134,7 @@ export default function MainScreen() {
     },
   ];
   const colors = [
-    "temp",
+    "all",
     "yellow",
     "lightgrey",
     "lightgreen",

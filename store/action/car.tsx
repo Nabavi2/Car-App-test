@@ -8,6 +8,26 @@ export const SET_SELECTED_YEAR = "SET_SELECTED_YEAR";
 import Car from "../../models/Car";
 import Image from "../../models/Image";
 
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////   Hey man! I have just do the filtering of by model.&&&*****&^%%$$
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
 export const setSelectedCompany = (company: string) => {
   return {
     type: SET_SELECTED_COMPANY,
@@ -30,18 +50,19 @@ export const setSelectedYear = (year: string) => {
 export const fetchCars = () => {
   try {
     return async (dispatch: Function) => {
-      const response1 = await fetch(`https://myfakeapi.com/api/cars/`, {
+      dispatch(setSelectedCompany("all"));
+      const response = await fetch(`https://myfakeapi.com/api/cars/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      if (!response1.ok) {
+      if (!response.ok) {
         throw new Error("An error occured! in carsfetch method");
       }
 
-      const resData = await response1.json();
+      const resData = await response.json();
 
       const loadedCars = [];
       for (const key in resData.cars) {
@@ -124,39 +145,41 @@ export const searchCarByName = (title: string) => {
 export const filterByModel = (model: any) => {
   try {
     return async (dispatch: Function) => {
+      dispatch(setSelectedCompany(model));
+
       const response = await fetch(
         `https://myfakeapi.com/api/cars/name/${model}`,
         {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
         }
       );
-      console.log(response);
 
       if (!response.ok) {
         throw new Error("somthing went wrong");
       }
 
       const resData = await response.json();
+
       if (resData.lenght === 0) {
         throw new Error("not found!");
       }
 
       const loadedCarByModel = [];
 
-      for (const key in resData) {
+      for (const key in resData.Cars) {
         loadedCarByModel.push(
           new Car(
-            resData[key].id,
-            resData[key].car,
-            resData[key].car_model,
-            resData[key].car_color,
-            resData[key].car_model_year,
-            resData[key].car_vin,
-            resData[key].price,
-            resData[key].availability
+            resData.Cars[key].id,
+            resData.Cars[key].car,
+            resData.Cars[key].car_model,
+            resData.Cars[key].car_color,
+            resData.Cars[key].car_model_year,
+            resData.Cars[key].car_vin,
+            resData.Cars[key].price,
+            resData.Cars[key].availability
           )
         );
       }
@@ -170,97 +193,100 @@ export const filterByModel = (model: any) => {
   }
 };
 
-// //This method is for filter by color
-// export const filterByColor = (color: any) => {
-//   try {
-//     return async (dispatch: Function) => {
-//       const response = await fetch(
-//         `https://myfakeapi.com/api/cars/color/${color}`,
-//         {
-//           method: "GET",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//       if (!response.ok) {
-//         throw new Error("somthing went wrong");
-//       }
+//This method is for filter by color
+export const filterByColor = (color: any) => {
+  try {
+    return async (dispatch: Function) => {
+      dispatch(setSelectedColor(color));
+      const response = await fetch(
+        `https://myfakeapi.com/api/cars/color/${color}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("somthing went wrong");
+      }
 
-//       const resData = await response.json();
-//       if (resData.lenght === 0) {
-//         throw new Error("not found!");
-//       }
+      const resData = await response.json();
+      if (resData.lenght === 0) {
+        throw new Error("not found!");
+      }
 
-//       const loadedCarByColor = [];
+      const loadedCars = [];
 
-//       for (const key in resData) {
-//         loadedCarByColor.push(
-//           new Car(
-//             resData[key].id,
-//             resData[key].car,
-//             resData[key].car_model,
-//             resData[key].car_color,
-//             resData[key].car_model_year,
-//             resData[key].car_vin,
-//             resData[key].price,
-//             resData[key].availability
-//           )
-//         );
-//       }
-//       dispatch({
-//         type: SET_SEARCH,
-//         filterColor: loadedCarByColor,
-//       });
-//     };
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-// //This method is for filter car by Year
-// export const filterByYear = (year: any) => {
-//   try {
-//     return async (dispatch: Function) => {
-//       const response = await fetch(
-//         `https://myfakeapi.com/api/cars/year/${year}`,
-//         {
-//           method: "GET",
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         }
-//       );
-//       if (!response.ok) {
-//         throw new Error("somthing went wrong");
-//       }
+      for (const key in resData.Cars) {
+        loadedCars.push(
+          new Car(
+            resData.Cars[key].id,
+            resData.Cars[key].car,
+            resData.Cars[key].car_model,
+            resData.Cars[key].car_color,
+            resData.Cars[key].car_model_year,
+            resData.Cars[key].car_vin,
+            resData.Cars[key].price,
+            resData.Cars[key].availability
+          )
+        );
+      }
+      dispatch({
+        type: SET_SEARCH,
+        filterColor: loadedCars,
+      });
+    };
+  } catch (error) {
+    throw error;
+  }
+};
 
-//       const resData = await response.json();
-//       if (resData.lenght === 0) {
-//         throw new Error("not found!");
-//       }
+//This method is for filter car by Year
+export const filterByYear = (year: any) => {
+  try {
+    return async (dispatch: Function) => {
+      dispatch(setSelectedYear(year));
+      const response = await fetch(
+        `https://myfakeapi.com/api/cars/year/${year}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("somthing went wrong");
+      }
 
-//       const loadedCarByYear = [];
+      const resData = await response.json();
+      if (resData.lenght === 0) {
+        throw new Error("not found!");
+      }
 
-//       for (const key in resData) {
-//         loadedCarByYear.push(
-//           new Car(
-//             resData[key].id,
-//             resData[key].car,
-//             resData[key].car_model,
-//             resData[key].car_color,
-//             resData[key].car_model_year,
-//             resData[key].car_vin,
-//             resData[key].price,
-//             resData[key].availability
-//           )
-//         );
-//       }
-//       dispatch({
-//         type: SET_SEARCH,
-//         filterColor: loadedCarByYear,
-//       });
-//     };
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+      const loadedCars = [];
+
+      for (const key in resData.Cars) {
+        loadedCars.push(
+          new Car(
+            resData.Cars[key].id,
+            resData.Cars[key].car,
+            resData.Cars[key].car_model,
+            resData.Cars[key].car_color,
+            resData.Cars[key].car_model_year,
+            resData.Cars[key].car_vin,
+            resData.Cars[key].price,
+            resData.Cars[key].availability
+          )
+        );
+      }
+      dispatch({
+        type: SET_SEARCH,
+        filterColor: loadedCars,
+      });
+    };
+  } catch (error) {
+    throw error;
+  }
+};
