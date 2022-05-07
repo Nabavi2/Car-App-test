@@ -130,7 +130,7 @@ export const searchCarByName = (title: string) => {
           )
         );
       }
-      console.log("LLLLLLLLLLLLL,", loadedCarByName);
+
       dispatch({
         type: SET_SEARCH,
         searchCar: loadedCarByName,
