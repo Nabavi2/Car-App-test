@@ -25,6 +25,7 @@ const Cart = ({ image, companyName, year, rentalDaily }) => {
           >
             {year}
           </Text>
+          {/* <Text></Text> */}
         </View>
       </View>
       <View style={styles.rentButtonRow}>
