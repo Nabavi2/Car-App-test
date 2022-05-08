@@ -1,4 +1,4 @@
-import { AntDesign, Feather, Fontisto } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
@@ -158,50 +158,6 @@ export default function MainScreen() {
     { name: "Mauv", hexCode: "#E0B0FF" },
     { name: "Turquoise", hexCode: "#30D5C8" },
   ];
-  const data = [
-    {
-      id: 1,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: "https://picsum.photos/200/340",
-    },
-    {
-      id: 2,
-      companyName: "BMW X",
-      year: "2018",
-      price: 260,
-      image: "https://picsum.photos/200/360",
-    },
-    {
-      id: 3,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: "https://picsum.photos/200/310",
-    },
-    {
-      id: 4,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: "https://picsum.photos/200/370",
-    },
-    {
-      id: 5,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: "https://picsum.photos/200/380",
-    },
-    {
-      id: 6,
-      companyName: "Tesla Modal X",
-      year: "2018",
-      price: 200,
-      image: "https://picsum.photos/200/399",
-    },
-  ];
 
   const searchHandler = async (title: string) => {
     try {
@@ -244,9 +200,8 @@ export default function MainScreen() {
       <FlatList
         showsHorizontalScrollIndicator={false}
         style={{
-          height: height * 0.19,
+          height: height * 0.2,
           flexGrow: 0,
-          // marginBottom: "2%",
           width: "100%",
           paddingBottom: -height * 0.15,
         }}
@@ -274,14 +229,7 @@ export default function MainScreen() {
         }
       />
 
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          paddingHorizontal: "3%",
-        }}
-      >
+      <View style={styles.menuContainer}>
         <Text style={styles.title}>Available Cars</Text>
         <Menu
           onSelect={(value) => {
@@ -364,6 +312,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: "2%",
     backgroundColor: Colors.background,
     paddingBottom: 10,
+  },
+  menuContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: "3%",
+    marginTop: 20,
   },
   title: {
     fontSize: 24,
