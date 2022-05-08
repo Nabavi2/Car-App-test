@@ -313,8 +313,3 @@ export const filterByYear = (year: any) => {
     throw error;
   }
 };
-export const emptySearchHandler = () => {
-  return async (dispatch: Function) => {
-    dispatch({ type: E_L_HANDLER, emptyList: [] });
-  };
-};

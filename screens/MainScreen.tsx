@@ -27,8 +27,8 @@ const { width, height } = Layout.window;
 export default function MainScreen() {
   const random = Math.floor(Math.random() * 10);
   const [showInput, setShowInput] = useState(false);
-
   const isLoading = useSelector((state) => state.cars.isLoading);
+
   const cars: [] = useSelector((state) => state.cars.availableCars);
   const searchedCar: [] = useSelector((state) => state.cars.searchCarByName);
   console.log(searchedCar, "searched Car");
@@ -230,10 +230,11 @@ export default function MainScreen() {
       <FlatList
         showsHorizontalScrollIndicator={false}
         style={{
-          height: 130,
+          height: height * 0.2,
           flexGrow: 0,
           marginBottom: "7%",
           width: "100%",
+          paddingBottom: -height * 0.15,
         }}
         contentContainerStyle={{ paddingHorizontal: "2%" }}
         horizontal={true}
@@ -304,6 +305,21 @@ export default function MainScreen() {
         >
           <ActivityIndicator size={60} color={Colors.primary} />
         </View>
+      ) : search ? (
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={searchedCar}
+          renderItem={({ item }) => {
+            return (
+              <Cart
+                image={item.image}
+                year={item.car_model_year}
+                rentalDaily={item.price}
+                companyName={item.car_model}
+              />
+            );
+          }}
+        />
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -333,6 +349,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+    marginTop: 10,
   },
   subTitle: {
     fontSize: 20,
@@ -373,13 +390,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
-    marginRight: 20,
-    marginBottom: 20,
+    alignSelf: "center",
+    marginVertical: "10%",
   },
   input: {
     height: height * 0.05,
-    width: width * 0.65,
+    width: width * 0.62,
     backgroundColor: Colors.background,
   },
   searchButton: {

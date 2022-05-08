@@ -101,6 +101,8 @@ const styles = StyleSheet.create({
     borderRadius: width / 25,
     marginHorizontal: 5,
     elevation: 5,
+    marginTop: 10,
+    marginBottom: 10,
   },
   text: {
     fontSize: 20,
