@@ -28,8 +28,6 @@ export default function MainScreen() {
   const cars: [] = useSelector((state) => state.cars.availableCars);
   const searchedCar: [] = useSelector((state) => state.cars.searchCarByName);
   console.log(searchedCar, "searched Car");
-  const [showInput, setShowInput] = useState(false);
-  const [filterData, setFilterData] = useState([]);
   const [search, setSearch] = useState("");
 
   const dispatch = useDispatch();
@@ -191,7 +189,6 @@ export default function MainScreen() {
   ];
 
   const searchHandler = async (title: string) => {
-    console.log("tltltltltltltlltltltltltl", title);
     try {
       await dispatch(carsActions.searchCarByName(title));
     } catch (err: any) {

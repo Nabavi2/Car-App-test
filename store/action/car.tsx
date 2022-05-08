@@ -66,6 +66,7 @@ export const fetchCars = () => {
 
       const loadedCars = [];
       for (const key in resData.cars) {
+        const random = Math.floor(Math.random() * 100);
         loadedCars.push(
           new Car(
             resData.cars[key].id,
@@ -75,7 +76,8 @@ export const fetchCars = () => {
             resData.cars[key].car_model_year,
             resData.cars[key].car_vin,
             resData.cars[key].price,
-            resData.cars[key].availability
+            resData.cars[key].availability,
+            `https://picsum.photos/330/2${random}`
           )
         );
       }
@@ -117,6 +119,7 @@ export const searchCarByName = (title: string) => {
       const loadedCarByName = [];
 
       for (const key in resData.Cars) {
+        const random = Math.floor(Math.random() * 100);
         loadedCarByName.push(
           new Car(
             resData.Cars[key].id,
@@ -126,7 +129,8 @@ export const searchCarByName = (title: string) => {
             resData.Cars[key].car_model_year,
             resData.Cars[key].car_vin,
             resData.Cars[key].price,
-            resData.Cars[key].availability
+            resData.Cars[key].availability,
+            `https://picsum.photos/330/2${random}`
           )
         );
       }
