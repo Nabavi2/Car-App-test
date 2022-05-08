@@ -4,6 +4,7 @@ export const SET_IMAGE = "SET_IMAGE";
 export const SET_SELECTED_COMPANY = "SET_SELECTED_COMPANY";
 export const SET_SELECTED_COLOR = "SET_SELECTED_COLOR";
 export const SET_SELECTED_YEAR = "SET_SELECTED_YEAR";
+export const IS_LOADING = "IS_LOADING";
 
 import Car from "../../models/Car";
 import Image from "../../models/Image";
@@ -50,7 +51,11 @@ export const setSelectedYear = (year: string) => {
 export const fetchCars = () => {
   try {
     return async (dispatch: Function) => {
+      dispatch({ type: IS_LOADING, status: true });
       dispatch(setSelectedCompany("all"));
+      dispatch(setSelectedColor("all"));
+      dispatch(setSelectedYear("all"));
+
       const response = await fetch(`https://myfakeapi.com/api/cars/`, {
         method: "GET",
         headers: {
@@ -84,6 +89,7 @@ export const fetchCars = () => {
         type: SET_CAR,
         cars: loadedCars,
       });
+      dispatch({ type: IS_LOADING, status: false });
     };
   } catch (error) {
     throw error;
@@ -177,7 +183,7 @@ export const filterByModel = (model: any) => {
   try {
     return async (dispatch: Function) => {
       dispatch(setSelectedCompany(model));
-
+      dispatch({ type: IS_LOADING, status: true });
       const response = await fetch(
         `https://myfakeapi.com/api/cars/name/${model}`,
         {
@@ -218,6 +224,7 @@ export const filterByModel = (model: any) => {
         type: SET_SEARCH,
         searchedCars: loadedCarByModel,
       });
+      dispatch({ type: IS_LOADING, status: false });
     };
   } catch (error) {
     throw error;
@@ -229,6 +236,9 @@ export const filterByColor = (color: any) => {
   try {
     return async (dispatch: Function) => {
       dispatch(setSelectedColor(color));
+      dispatch({ type: IS_LOADING, status: true });
+      console.log(color);
+
       const response = await fetch(
         `https://myfakeapi.com/api/cars/color/${color}`,
         {
@@ -265,8 +275,9 @@ export const filterByColor = (color: any) => {
       }
       dispatch({
         type: SET_SEARCH,
-        filterColor: loadedCars,
+        searchedCars: loadedCars,
       });
+      dispatch({ type: IS_LOADING, status: false });
     };
   } catch (error) {
     throw error;
@@ -278,6 +289,7 @@ export const filterByYear = (year: any) => {
   try {
     return async (dispatch: Function) => {
       dispatch(setSelectedYear(year));
+      dispatch({ type: IS_LOADING, status: true });
       const response = await fetch(
         `https://myfakeapi.com/api/cars/year/${year}`,
         {
@@ -314,8 +326,9 @@ export const filterByYear = (year: any) => {
       }
       dispatch({
         type: SET_SEARCH,
-        filterColor: loadedCars,
+        searchedCars: loadedCars,
       });
+      dispatch({ type: IS_LOADING, status: false });
     };
   } catch (error) {
     throw error;

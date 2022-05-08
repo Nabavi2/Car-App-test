@@ -1,4 +1,5 @@
 import {
+  IS_LOADING,
   SET_CAR,
   SET_IMAGE,
   SET_SEARCH,
@@ -13,6 +14,7 @@ const initialState = {
   selectedCompany: "all",
   selectedColor: "all",
   selectedYear: "all",
+  isLoading: false,
 };
 
 export default (state = initialState, action: any) => {
@@ -20,7 +22,7 @@ export default (state = initialState, action: any) => {
     case SET_CAR:
       return {
         ...state,
-        availableCars: [...state.availableCars, ...action.cars],
+        availableCars: [...action.cars],
       };
     case SET_IMAGE:
       return {
@@ -46,6 +48,11 @@ export default (state = initialState, action: any) => {
       return {
         ...state,
         selectedYear: action.year,
+      };
+    case IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.status,
       };
     default:
       return state;

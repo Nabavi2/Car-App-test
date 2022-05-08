@@ -30,7 +30,10 @@ function IconContainer({ text, company, color, isFirst = false }: any) {
       (company.name === selectedCompany || company === selectedCompany)
     ) {
       setIsSelected(true);
-    } else if (color && color === selectedColor) {
+    } else if (
+      color &&
+      (color.name === selectedColor || color === selectedColor)
+    ) {
       setIsSelected(true);
     } else {
       setIsSelected(false);
@@ -47,19 +50,21 @@ function IconContainer({ text, company, color, isFirst = false }: any) {
             ? dispatch(fetchCars())
             : dispatch(filterByModel(company.name));
         } else {
-          isFirst ? dispatch(fetchCars()) : dispatch(filterByColor(color));
+          isFirst ? dispatch(fetchCars()) : dispatch(filterByColor(color.name));
         }
       }}
       style={{
         ...styles.container,
         backgroundColor:
           color && !isFirst
-            ? color
+            ? color.hexCode
             : isSelected
             ? isFirst
               ? "#e4e3e3"
               : Colors.primary
             : "white",
+        borderWidth: isSelected && color && !isFirst ? 5 : 0,
+        borderColor: Colors.primary,
       }}
     >
       {(text || isFirst) && (
@@ -78,6 +83,7 @@ function IconContainer({ text, company, color, isFirst = false }: any) {
       )}
       {company && !isFirst && (
         <Image
+          resizeMode="contain"
           source={isSelected ? company.white : company.black}
           style={styles.image}
         />
@@ -88,7 +94,7 @@ function IconContainer({ text, company, color, isFirst = false }: any) {
 
 const styles = StyleSheet.create({
   container: {
-    width: width * 0.19,
+    width: width * 0.195,
     height: height * 0.1,
     alignItems: "center",
     justifyContent: "center",
@@ -101,8 +107,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   image: {
-    width: width * 0.15,
-    height: height * 0.085,
+    width: "80%",
+    height: "80%",
   },
 });
 
