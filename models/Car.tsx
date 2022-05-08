@@ -7,6 +7,7 @@ class Car {
   car_vin: any;
   price: string;
   availability: boolean;
+  image: string;
 
   constructor(
     id: number,
@@ -16,7 +17,8 @@ class Car {
     car_model_year: any,
     car_vin: any,
     price: any,
-    availability: boolean
+    availability: boolean,
+    image: string
   ) {
     this.id = id;
     this.car = car;
@@ -26,6 +28,7 @@ class Car {
     this.car_vin = car_vin;
     this.price = price;
     this.availability = availability;
+    this.image = image;
   }
 }
 export default Car;

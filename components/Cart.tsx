@@ -14,7 +14,7 @@ const Cart = ({ image, companyName, year, rentalDaily }) => {
       <View style={styles.row}>
         <Image
           source={{
-            uri: `https://picsum.photos/330/2${random}`,
+            uri: image,
           }}
           style={styles.image}
         />
