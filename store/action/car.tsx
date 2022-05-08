@@ -174,6 +174,7 @@ export const filterByModel = (model: any) => {
       const loadedCarByModel = [];
 
       for (const key in resData.Cars) {
+        const random = Math.floor(Math.random() * 100);
         loadedCarByModel.push(
           new Car(
             resData.Cars[key].id,
@@ -183,7 +184,8 @@ export const filterByModel = (model: any) => {
             resData.Cars[key].car_model_year,
             resData.Cars[key].car_vin,
             resData.Cars[key].price,
-            resData.Cars[key].availability
+            resData.Cars[key].availability,
+            `https://picsum.photos/330/2${random}`
           )
         );
       }
@@ -223,6 +225,7 @@ export const filterByColor = (color: any) => {
       const loadedCars = [];
 
       for (const key in resData.Cars) {
+        const random = Math.floor(Math.random() * 100);
         loadedCars.push(
           new Car(
             resData.Cars[key].id,
@@ -232,7 +235,8 @@ export const filterByColor = (color: any) => {
             resData.Cars[key].car_model_year,
             resData.Cars[key].car_vin,
             resData.Cars[key].price,
-            resData.Cars[key].availability
+            resData.Cars[key].availability,
+            `https://picsum.photos/330/2${random}`
           )
         );
       }
@@ -272,6 +276,7 @@ export const filterByYear = (year: any) => {
       const loadedCars = [];
 
       for (const key in resData.Cars) {
+        const random = Math.floor(Math.random() * 100);
         loadedCars.push(
           new Car(
             resData.Cars[key].id,
@@ -281,7 +286,8 @@ export const filterByYear = (year: any) => {
             resData.Cars[key].car_model_year,
             resData.Cars[key].car_vin,
             resData.Cars[key].price,
-            resData.Cars[key].availability
+            resData.Cars[key].availability,
+            `https://picsum.photos/330/2${random}`
           )
         );
       }
@@ -293,4 +299,9 @@ export const filterByYear = (year: any) => {
   } catch (error) {
     throw error;
   }
+};
+export const emptySearchHandler = () => {
+  return async (dispatch: Function) => {
+    dispatch({ type: E_L_HANDLER, emptyList: [] });
+  };
 };

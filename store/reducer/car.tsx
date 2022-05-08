@@ -30,7 +30,7 @@ export default (state = initialState, action: any) => {
     case SET_SEARCH:
       return {
         ...state,
-        searchCarByName: [...state.searchCarByName, ...action.searchCar],
+        searchCarByName: [...action.searchCar],
       };
     case SET_SELECTED_COLOR:
       return {
