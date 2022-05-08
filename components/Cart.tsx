@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: Colors.white,
     height: size.height * 0.2,
-    width: "96%",
+    width: "93.5%",
     alignSelf: "center",
     margin: 10,
     shadowColor: "black",
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "50%",
-    height: size.height * 0.07,
+    height: size.height * 0.08,
     borderTopLeftRadius: 20,
     borderBottomRightRadius: 20,
     backgroundColor: Colors.primary,
