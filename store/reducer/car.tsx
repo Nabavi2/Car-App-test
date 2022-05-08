@@ -1,6 +1,7 @@
 import {
   IS_LOADING,
   SET_CAR,
+  SET_FILTER,
   SET_IMAGE,
   SET_SEARCH,
   SET_SELECTED_COLOR,
@@ -53,6 +54,11 @@ export default (state = initialState, action: any) => {
       return {
         ...state,
         isLoading: action.status,
+      };
+    case SET_FILTER:
+      return {
+        ...state,
+        availableCars: [...action.filteredCars],
       };
     default:
       return state;

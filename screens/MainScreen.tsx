@@ -49,18 +49,26 @@ export default function MainScreen() {
   const [selectedOption, setSelectedOption] = useState("By company");
   const years = [
     "all",
-    "2021",
-    "2020",
-    "2019",
-    "2018",
-    "2017",
-    "2016",
-    "2015",
-    "2014",
     "2013",
     "2012",
     "2011",
     "2010",
+    "2009",
+    "2008",
+    "2007",
+    "2006",
+    "2005",
+    "2004",
+    "2003",
+    "2002",
+    "2001",
+    "2000",
+    "1999",
+    "1998",
+    "1997",
+    "1996",
+    "1995",
+    "1994",
   ];
   const brands = [
     "all",
@@ -226,13 +234,19 @@ export default function MainScreen() {
           <Text style={styles.buttonText}>Search</Text>
         </TouchableOpacity>
       </View>
-
+      <Text style={{ ...styles.title, marginLeft: "2%", marginBottom: "1%" }}>
+        {selectedOption === "By company"
+          ? "Brands"
+          : selectedOption === "By color"
+          ? "Colors"
+          : "Years"}
+      </Text>
       <FlatList
         showsHorizontalScrollIndicator={false}
         style={{
-          height: 130,
+          height: height * 0.19,
           flexGrow: 0,
-          marginBottom: "7%",
+          // marginBottom: "2%",
           width: "100%",
         }}
         contentContainerStyle={{ paddingHorizontal: "2%" }}
@@ -300,7 +314,11 @@ export default function MainScreen() {
 
       {isLoading ? (
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            height: "66.8%",
+          }}
         >
           <ActivityIndicator size={60} color={Colors.primary} />
         </View>

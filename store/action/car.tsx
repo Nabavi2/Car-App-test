@@ -5,6 +5,7 @@ export const SET_SELECTED_COMPANY = "SET_SELECTED_COMPANY";
 export const SET_SELECTED_COLOR = "SET_SELECTED_COLOR";
 export const SET_SELECTED_YEAR = "SET_SELECTED_YEAR";
 export const IS_LOADING = "IS_LOADING";
+export const SET_FILTER = "SET_FILTER";
 
 import Car from "../../models/Car";
 import Image from "../../models/Image";
@@ -155,6 +156,8 @@ export const searchCarByName = (title: string) => {
 export const filterByModel = (model: any) => {
   try {
     return async (dispatch: Function) => {
+      // console.log(model);
+
       dispatch(setSelectedCompany(model));
       dispatch({ type: IS_LOADING, status: true });
       const response = await fetch(
@@ -194,8 +197,8 @@ export const filterByModel = (model: any) => {
         );
       }
       dispatch({
-        type: SET_SEARCH,
-        searchedCars: loadedCarByModel,
+        type: SET_FILTER,
+        filteredCars: loadedCarByModel,
       });
       dispatch({ type: IS_LOADING, status: false });
     };
@@ -247,8 +250,8 @@ export const filterByColor = (color: any) => {
         );
       }
       dispatch({
-        type: SET_SEARCH,
-        searchedCars: loadedCars,
+        type: SET_FILTER,
+        filteredCars: loadedCars,
       });
       dispatch({ type: IS_LOADING, status: false });
     };
@@ -298,8 +301,8 @@ export const filterByYear = (year: any) => {
         );
       }
       dispatch({
-        type: SET_SEARCH,
-        searchedCars: loadedCars,
+        type: SET_FILTER,
+        filteredCars: loadedCars,
       });
       dispatch({ type: IS_LOADING, status: false });
     };
