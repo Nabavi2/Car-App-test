@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
   Text,
-  Button,
+  ActivityIndicator,
 } from "react-native";
 
 import {
@@ -25,6 +25,10 @@ import * as carsActions from "../store/action/car";
 
 const { width, height } = Layout.window;
 export default function MainScreen() {
+  const random = Math.floor(Math.random() * 10);
+  const [showInput, setShowInput] = useState(false);
+
+  const isLoading = useSelector((state) => state.cars.isLoading);
   const cars: [] = useSelector((state) => state.cars.availableCars);
   const searchedCar: [] = useSelector((state) => state.cars.searchCarByName);
   console.log(searchedCar, "searched Car");
@@ -86,7 +90,7 @@ export default function MainScreen() {
       white: require("../assets/images/lamborghini_white.png"),
     },
     {
-      name: "Land-Rover",
+      name: "Land Rover",
       black: require("../assets/images/land_rover.png"),
       white: require("../assets/images/land_rover_white.png"),
     },
@@ -133,15 +137,18 @@ export default function MainScreen() {
   ];
   const colors = [
     "all",
-    "yellow",
-    "lightgrey",
-    "lightgreen",
-    "black",
-    "purple",
-    "dodgerblue",
-    "tomato",
-    "lightblue",
-    "orange",
+    { name: "Yellow", hexCode: "#FFFF00" },
+    { name: "Maroon", hexCode: "#800000" },
+    { name: "Red", hexCode: "#FF0000" },
+    { name: "Violet", hexCode: "#8F00FF" },
+    { name: "Purple", hexCode: "#BF40BF" },
+    { name: "Indigo", hexCode: "#4B0082" },
+    { name: "Teal", hexCode: "#008080" },
+    { name: "Pink", hexCode: "#FFC0CB" },
+    { name: "Aquamarine", hexCode: "#7FFFD4" },
+    { name: "Green", hexCode: "#00f700" },
+    { name: "Mauv", hexCode: "#E0B0FF" },
+    { name: "Turquoise", hexCode: "#30D5C8" },
   ];
   const data = [
     {
@@ -261,9 +268,14 @@ export default function MainScreen() {
         }}
       >
         <Text style={styles.title}>Available Cars</Text>
-        <Menu onSelect={(value) => setSelectedOption(value)}>
+        <Menu
+          onSelect={(value) => {
+            dispatch(carsActions.fetchCars());
+            setSelectedOption(value);
+          }}
+        >
           <MenuTrigger>
-            <AntDesign name="filter" size={34} color="grey" />
+            <AntDesign name="filter" size={34} color="black" />
           </MenuTrigger>
           <MenuOptions
             customStyles={{
@@ -273,33 +285,25 @@ export default function MainScreen() {
                 color: Colors.primary,
               },
               optionsContainer: {
-                borderRadius: width / 65,
+                borderRadius: width / 45,
                 padding: "5%",
+                width: width * 0.25,
               },
             }}
           >
-            <MenuOption text="By company" value={"By company"} />
-            <MenuOption text="By color" value={"By color"} />
-            <MenuOption text="By year" value={"By year"} />
+            <MenuOption text="Company" value={"By company"} />
+            <MenuOption text="Color" value={"By color"} />
+            <MenuOption text="Year" value={"By year"} />
           </MenuOptions>
         </Menu>
       </View>
 
-      {search ? (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={searchedCar}
-          renderItem={({ item }) => {
-            return (
-              <Cart
-                image={item.image}
-                year={item.car_model_year}
-                rentalDaily={item.price}
-                companyName={item.car_model}
-              />
-            );
-          }}
-        />
+      {isLoading ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator size={60} color={Colors.primary} />
+        </View>
       ) : (
         <FlatList
           showsVerticalScrollIndicator={false}
